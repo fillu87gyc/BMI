@@ -1,0 +1,20 @@
+<h1>Body Mass Index</h1>
+<%= form_tag(controller: "bmi" ,action: "index") do %>
+<div>
+  体重:
+  <%= text_field_tag("mass" ,@mass) %>
+  <% if @has_error_mass  %>
+  <%= '整数で入力' %>
+  <% end  %>
+</div>
+<div>
+  身長:
+  <%= text_field_tag("height", @height) %>
+  <% if @has_error_height  %>
+  <%= '整数で入力' %>
+  <% end  %>
+</div>
+<%= submit_tag("計算する") %>
+<%end%>
+BMI:
+<%=  @bmi_result %>
