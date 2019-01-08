@@ -10,7 +10,7 @@ class BmiController < ApplicationController
     @has_error_mass   = !input_check_try_int_parse(params[:mass])
     @has_error_height = !input_check_try_int_parse(params[:height])
 
-    return if @has_error_height && @has_error_mass
+    return if @has_error_height || @has_error_mass
 
     @mass = params[:mass].to_i
     @height = params[:height].to_i
@@ -18,8 +18,10 @@ class BmiController < ApplicationController
     mass = @mass
     height = @height
 
-    update_errors(mass, height) if mass_range_err?(mass) || height_range_err?(height)
-
+    if mass_range_err?(mass) || height_range_err?(height)
+      update_errors(mass, height)
+      return
+    end
     @has_error_height = false
     @has_error_mass = false
     @bmi_result = mass / ((height * height).to_f / 10_000.to_f)
